@@ -1,0 +1,776 @@
+
+{% extends "base.html" %}
+
+{% block title %}FractureAI Assistant{% endblock %}
+
+{% block content %}
+
+<style>
+.chat-page {
+    --chat-navy: #12344d;
+    --chat-blue: #176b91;
+    --chat-teal: #159b96;
+    --chat-bg: #f1f6fa;
+    --chat-muted: #718397;
+    min-height: 82vh;
+    padding: 30px 15px;
+    background: var(--chat-bg);
+}
+
+.chat-container {
+    max-width: 950px;
+    height: 720px;
+    max-height: calc(100vh - 150px);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 22px;
+    border: 1px solid #e1eaf0;
+    box-shadow: 0 15px 45px rgba(22, 54, 78, .10);
+}
+
+/* Header */
+
+.chat-header {
+    padding: 19px 23px;
+    background: linear-gradient(115deg, #123b59, #167e91);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.chat-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background: #ffffff20;
+    border: 1px solid #ffffff35;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+}
+
+.chat-header h2 {
+    font-size: 18px;
+    margin: 0;
+    color: white;
+}
+
+.chat-header p {
+    font-size: 11px;
+    color: #d7edf0;
+    margin: 5px 0 0;
+}
+
+.chat-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #70e6bd;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.chat-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-clear {
+    background: #ffffff17;
+    border: 1px solid #ffffff40;
+    color: white;
+    padding: 9px 13px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.chat-clear:hover {
+    background: #ffffff30;
+}
+
+/* Safety note */
+
+.chat-safety {
+    background: #eaf6f7;
+    border-bottom: 1px solid #dcecee;
+    padding: 11px 20px;
+    color: #456a78;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* Messages */
+
+.chat-messages {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 25px;
+    background:
+        radial-gradient(circle at 15% 20%, #eaf5fa 0, transparent 27%),
+        #f9fbfd;
+    scroll-behavior: smooth;
+}
+
+.chat-welcome {
+    max-width: 650px;
+    margin: 15px auto 25px;
+    text-align: center;
+}
+
+.welcome-icon {
+    width: 68px;
+    height: 68px;
+    margin: auto;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #e0f5f5, #e9f1ff);
+    font-size: 34px;
+}
+
+.chat-welcome h3 {
+    color: var(--chat-navy);
+    font-size: 22px;
+    margin: 15px 0 8px;
+}
+
+.chat-welcome p {
+    color: var(--chat-muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* Suggested questions */
+
+.suggestion-title {
+    color: #8293a3;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 10px;
+    margin: 25px 0 12px;
+}
+
+.suggestions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    max-width: 650px;
+    margin: auto;
+}
+
+.suggestion-btn {
+    border: 1px solid #dce8ef;
+    background: white;
+    padding: 13px 14px;
+    border-radius: 12px;
+    color: #36556c;
+    text-align: left;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1.5;
+    transition: .2s;
+}
+
+.suggestion-btn:hover {
+    border-color: #159b96;
+    background: #f0fbfa;
+    transform: translateY(-2px);
+}
+
+/* Message rows */
+
+.message-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: flex-end;
+}
+
+.message-row.user {
+    justify-content: flex-end;
+}
+
+.message-avatar {
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: #e3f2f4;
+    font-size: 17px;
+}
+
+.message-row.user .message-avatar {
+    background: #e7edf8;
+}
+
+.message-content {
+    max-width: min(78%, 620px);
+}
+
+.message-name {
+    font-size: 10px;
+    color: #8292a1;
+    margin: 0 0 6px 3px;
+    font-weight: 700;
+}
+
+.message-row.user .message-name {
+    text-align: right;
+}
+
+.message-bubble {
+    padding: 13px 16px;
+    border-radius: 15px 15px 15px 4px;
+    background: white;
+    color: #344e63;
+    border: 1px solid #e6edf2;
+    box-shadow: 0 3px 10px #173e5808;
+    font-size: 13px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.message-row.user .message-bubble {
+    background: linear-gradient(135deg, #176b91, #168f99);
+    color: white;
+    border: none;
+    border-radius: 15px 15px 4px 15px;
+}
+
+.message-time {
+    color: #a0adba;
+    font-size: 9px;
+    margin: 5px 3px 0;
+}
+
+.message-row.user .message-time {
+    text-align: right;
+}
+
+/* Typing */
+
+.typing-bubble {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 16px;
+    background: white;
+    border: 1px solid #e6edf2;
+    border-radius: 14px 14px 14px 4px;
+    width: 65px;
+}
+
+.typing-bubble span {
+    width: 6px;
+    height: 6px;
+    background: #159b96;
+    border-radius: 50%;
+    animation: typing 1s infinite ease-in-out;
+}
+
+.typing-bubble span:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.typing-bubble span:nth-child(3) {
+    animation-delay: .3s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: .5; }
+    30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Input area */
+
+.chat-input-area {
+    padding: 16px 20px 13px;
+    border-top: 1px solid #e8eef2;
+    background: white;
+}
+
+.chat-input-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 780px;
+    margin: auto;
+    padding: 7px 8px 7px 17px;
+    border: 1px solid #dce7ee;
+    border-radius: 15px;
+    background: #f8fafc;
+    transition: .2s;
+}
+
+.chat-input-form:focus-within {
+    border-color: #159b96;
+    box-shadow: 0 0 0 3px #159b9615;
+}
+
+.chat-input-form input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 11px 0;
+    color: #263d52;
+    font-size: 13px;
+}
+
+.chat-input-form input::placeholder {
+    color: #9aa8b5;
+}
+
+.chat-send {
+    flex: 0 0 43px;
+    width: 43px;
+    height: 43px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #176b91, #159b96);
+    color: white;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.chat-send:hover {
+    filter: brightness(.93);
+}
+
+.chat-send:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.chat-footer-note {
+    color: #98a5b0;
+    text-align: center;
+    font-size: 9px;
+    margin: 10px 0 0;
+}
+
+/* Error message */
+
+.chat-error {
+    background: #fff0ed;
+    color: #a33f2f;
+    border: 1px solid #f4d6d0;
+    border-radius: 10px;
+    padding: 10px 13px;
+    margin: 0 auto 12px;
+    max-width: 780px;
+    font-size: 12px;
+    display: none;
+}
+
+@media(max-width: 600px) {
+    .chat-page {
+        padding: 12px 7px;
+    }
+
+    .chat-container {
+        height: calc(100vh - 115px);
+        max-height: none;
+        border-radius: 15px;
+    }
+
+    .chat-header {
+        padding: 14px;
+    }
+
+    .chat-header h2 {
+        font-size: 15px;
+    }
+
+    .chat-header p {
+        font-size: 9px;
+    }
+
+    .chat-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .chat-clear {
+        padding: 8px;
+        font-size: 10px;
+    }
+
+    .chat-messages {
+        padding: 15px 11px;
+    }
+
+    .suggestions {
+        grid-template-columns: 1fr;
+    }
+
+    .message-content {
+        max-width: 85%;
+    }
+
+    .chat-input-area {
+        padding: 12px 10px;
+    }
+}
+</style>
+
+
+<div class="chat-page">
+
+    <div class="chat-container">
+
+        <!-- HEADER -->
+
+        <div class="chat-header">
+
+            <div class="chat-header-left">
+
+                <div class="chat-avatar">🦴</div>
+
+                <div>
+                    <h2>FractureAI Assistant</h2>
+
+                    <p class="chat-status">
+                        <span class="status-dot"></span>
+                        AI information assistant
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="chat-header-actions">
+                <button type="button" class="chat-clear" id="clearChat">
+                    ↻ New chat
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- SAFETY NOTE -->
+
+        <div class="chat-safety">
+            🛡️ Educational bone-health information only. This chatbot
+            cannot diagnose fractures or replace a doctor.
+        </div>
+
+
+        <!-- MESSAGES -->
+
+        <div class="chat-messages" id="chatMessages">
+
+            <div class="chat-welcome" id="welcomeScreen">
+
+                <div class="welcome-icon">🦴</div>
+
+                <h3>Hello! How can I help you?</h3>
+
+                <p>
+                    Welcome to FractureAI. I can help you understand
+                    human bones, fracture types, symptoms and basic
+                    fracture first-aid information.
+                </p>
+
+                <div class="suggestion-title">
+                    Try asking me
+                </div>
+
+                <div class="suggestions">
+
+                    <button class="suggestion-btn" type="button"
+                        data-question="What is a bone fracture?">
+                        🦴 What is a bone fracture?
+                    </button>
+
+                    <button class="suggestion-btn" type="button"
+                        data-question="What are the different types of fractures?">
+                        📚 Types of fractures
+                    </button>
+
+                    <button class="suggestion-btn" type="button"
+                        data-question="What first aid should be given for a suspected fracture?">
+                        🩹 First aid for fractures
+                    </button>
+
+                    <button class="suggestion-btn" type="button"
+                        data-question="What is the function of the femur bone?">
+                        🦵 Learn about the femur
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INPUT -->
+
+        <div class="chat-input-area">
+
+            <div class="chat-error" id="chatError"></div>
+
+            <form class="chat-input-form" id="chatForm">
+
+                <input
+                    type="text"
+                    id="userInput"
+                    placeholder="Ask something about bones or fractures..."
+                    autocomplete="off"
+                    required
+                >
+
+                <button class="chat-send" id="sendButton"
+                        type="submit" aria-label="Send message">
+                    ➤
+                </button>
+
+            </form>
+
+            <p class="chat-footer-note">
+                FractureAI may make mistakes. For medical concerns,
+                consult a qualified healthcare professional.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const chatForm = document.getElementById("chatForm");
+    const userInput = document.getElementById("userInput");
+    const chatMessages = document.getElementById("chatMessages");
+    const sendButton = document.getElementById("sendButton");
+    const welcomeScreen = document.getElementById("welcomeScreen");
+    const clearButton = document.getElementById("clearChat");
+    const chatError = document.getElementById("chatError");
+
+    let isWaiting = false;
+
+    function getTime() {
+        return new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
+
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showError(message) {
+        chatError.textContent = message;
+        chatError.style.display = "block";
+    }
+
+    function hideError() {
+        chatError.textContent = "";
+        chatError.style.display = "none";
+    }
+
+    function addMessage(message, sender) {
+
+        if (welcomeScreen) {
+            welcomeScreen.style.display = "none";
+        }
+
+        const row = document.createElement("div");
+        row.className = "message-row " + sender;
+
+        const avatar = document.createElement("div");
+        avatar.className = "message-avatar";
+        avatar.textContent = sender === "user" ? "👤" : "🦴";
+
+        const content = document.createElement("div");
+        content.className = "message-content";
+
+        const name = document.createElement("div");
+        name.className = "message-name";
+        name.textContent = sender === "user" ? "You" : "FractureAI Assistant";
+
+        const bubble = document.createElement("div");
+        bubble.className = "message-bubble";
+
+        // Use textContent to safely display chatbot responses.
+        bubble.textContent = message;
+
+        const time = document.createElement("div");
+        time.className = "message-time";
+        time.textContent = getTime();
+
+        content.appendChild(name);
+        content.appendChild(bubble);
+        content.appendChild(time);
+
+        if (sender === "user") {
+            row.appendChild(content);
+            row.appendChild(avatar);
+        } else {
+            row.appendChild(avatar);
+            row.appendChild(content);
+        }
+
+        chatMessages.appendChild(row);
+        scrollToBottom();
+    }
+
+    function showTyping() {
+
+        const row = document.createElement("div");
+        row.className = "message-row";
+        row.id = "typingIndicator";
+
+        const avatar = document.createElement("div");
+        avatar.className = "message-avatar";
+        avatar.textContent = "🦴";
+
+        const bubble = document.createElement("div");
+        bubble.className = "typing-bubble";
+
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement("span");
+            bubble.appendChild(dot);
+        }
+
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+
+        chatMessages.appendChild(row);
+        scrollToBottom();
+    }
+
+    function removeTyping() {
+        const typing = document.getElementById("typingIndicator");
+        if (typing) {
+            typing.remove();
+        }
+    }
+
+    async function sendMessage(message) {
+
+        if (!message.trim() || isWaiting) return;
+
+        hideError();
+
+        isWaiting = true;
+        sendButton.disabled = true;
+        userInput.disabled = true;
+
+        addMessage(message, "user");
+        userInput.value = "";
+
+        showTyping();
+
+        try {
+
+            const response = await fetch("{{ url_for('chat') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            });
+
+            const data = await response.json();
+
+            removeTyping();
+
+            if (!response.ok) {
+                throw new Error(data.reply || data.error || "Chatbot request failed.");
+            }
+
+            if (data.reply) {
+                addMessage(data.reply, "assistant");
+            } else {
+                addMessage(
+                    "I could not generate a response. Please try again.",
+                    "assistant"
+                );
+            }
+
+        } catch (error) {
+
+            removeTyping();
+
+            showError(
+                "Unable to connect to FractureAI. Please check your connection and try again."
+            );
+
+            console.error("Chat error:", error);
+
+        } finally {
+
+            isWaiting = false;
+            sendButton.disabled = false;
+            userInput.disabled = false;
+            userInput.focus();
+
+        }
+    }
+
+    chatForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        sendMessage(userInput.value);
+    });
+
+    document.querySelectorAll(".suggestion-btn").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+            sendMessage(button.dataset.question);
+        });
+
+    });
+
+    clearButton.addEventListener("click", function () {
+
+        if (isWaiting) return;
+
+        chatMessages.innerHTML = "";
+
+        if (welcomeScreen) {
+            chatMessages.appendChild(welcomeScreen);
+            welcomeScreen.style.display = "block";
+        }
+
+        hideError();
+        userInput.value = "";
+        userInput.focus();
+
+    });
+
+});
+</script>
+
+{% endblock %}

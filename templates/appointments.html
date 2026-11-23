@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Appointments | FractureAI{% endblock %}
+{% block content %}
+<div class="page-heading"><div class="eyebrow">CARE CONNECTION</div><h1>Doctor appointment requests</h1><p class="muted">Submit a request to discuss your X-ray with a qualified clinician.</p></div>
+<div class="content-grid"><section class="panel"><h2>Request an appointment</h2><form method="post" class="form">
+<label>Doctor / specialist<select name="doctor" required><option value="">Choose a specialist</option><option>Orthopaedic specialist</option><option>Radiologist</option><option>General physician</option></select></label>
+<div class="form-row"><label>Preferred date<input type="date" name="date" required></label><label>Preferred time<input type="time" name="time" required></label></div>
+<label>Reason for appointment<textarea name="reason" rows="4" placeholder="Briefly describe your concern (do not include sensitive details unnecessarily)"></textarea></label>
+<button class="btn primary" type="submit">Submit appointment request</button></form><p class="muted tiny">Demo only: this request is saved locally and is not sent to a doctor or clinic.</p></section>
+<section class="panel"><h2>Your requests</h2>{% if appointments %}{% for a in appointments %}<div class="appointment-item"><b>{{ a.doctor_name }}</b><span>{{ a.appointment_date }} · {{ a.appointment_time }}</span><small>{{ a.status }}</small></div>{% endfor %}{% else %}<div class="empty-state"><div>♡</div><b>No requests yet</b><p>Your submitted requests will appear here.</p></div>{% endif %}</section></div>
+{% endblock %}

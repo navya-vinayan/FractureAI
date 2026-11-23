@@ -1,0 +1,67 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}FractureAI{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+  <a class="brand" href="{{ url_for('index') }}">
+    <span class="brand-mark">✚</span> Fracture<span>AI</span>
+  </a>
+
+  <div class="nav-links">
+
+    {% if session.get('user_id') %}
+
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('analyze') }}">X-ray analysis</a>
+      <a href="{{ url_for('chat') }}">AI assistant</a>
+      <a href="{{ url_for('hospitals') }}">Kerala hospitals</a>
+      <a class="nav-button" href="{{ url_for('logout') }}">Log out</a>
+
+    {% else %}
+
+      <a href="{{ url_for('hospitals') }}">Kerala hospitals</a>
+      <a href="{{ url_for('login') }}">Log in</a>
+      <a class="nav-button" href="{{ url_for('register') }}">Get started</a>
+
+    {% endif %}
+
+  </div>
+</nav>
+
+<main class="page">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+
+    {% endif %}
+
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+
+</main>
+
+<footer>
+  FractureAI · Research prototype for educational screening support
+</footer>
+
+</body>
+</html>

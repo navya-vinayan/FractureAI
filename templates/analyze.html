@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}X-ray analysis | FractureAI{% endblock %}
+{% block content %}
+<div class="page-heading"><div class="eyebrow">AI SCREENING</div><h1>Upload an X-ray</h1><p class="muted">Choose a clear X-ray image in JPG, JPEG or PNG format.</p></div>
+<div class="upload-layout"><section class="panel upload-panel">
+{% if model_ready %}
+<form method="post" enctype="multipart/form-data" class="form">
+<label class="drop-zone"><span class="upload-symbol">↑</span><b>Choose an X-ray image</b><span class="muted">PNG, JPG or JPEG · Maximum 10 MB</span><input type="file" name="xray" accept=".png,.jpg,.jpeg" required></label>
+<button class="btn primary full" type="submit">Analyze X-ray</button>
+</form>
+{% else %}<div class="flash danger">Model is not loaded. {{ model_error or '' }}</div>{% endif %}
+</section><aside class="panel"><h2>Before uploading</h2><ul class="check-list"><li>Use an X-ray image, not a photograph of a screen.</li><li>Make sure the image is clear and not cropped.</li><li>Remove names and other identifying details.</li><li>Use only images you have permission to process.</li></ul><div class="mini-notice">This tool is for research demonstration only, not diagnosis or emergency assessment.</div></aside></div>
+{% endblock %}

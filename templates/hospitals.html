@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kerala Hospital Directory | FractureAI</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f7fb;
+            font-family: Arial, sans-serif;
+            color: #263445;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #123b55, #087e8b);
+            color: white;
+            padding: 55px 20px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: #e1f3f5;
+            margin-top: 12px;
+        }
+
+        .search-panel {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            margin-top: -25px;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .hospital-card {
+            background: white;
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: 0.25s;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 9px 25px rgba(0,0,0,0.12);
+        }
+
+        .hospital-image {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            background: #e8f0f4;
+        }
+
+        .hospital-name {
+            color: #123b55;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .hospital-type {
+            display: inline-block;
+            background: #e6f5f5;
+            color: #087e8b;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 8px 0;
+        }
+
+        .hospital-info {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #536273;
+            overflow-wrap: anywhere;
+        }
+
+        .hospital-info i {
+            color: #087e8b;
+            margin-right: 7px;
+        }
+
+        .hospital-actions a {
+            text-decoration: none;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            font-weight: 700;
+            color: #123b55;
+        }
+
+        .empty-message {
+            background: white;
+            padding: 45px 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .source-note {
+            font-size: 12px;
+            color: #89939e;
+        }
+
+        footer {
+            background: #123b55;
+            color: white;
+            padding: 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HERO SECTION -->
+<section class="hero text-center">
+    <div class="container">
+        <h1>
+            <i class="bi bi-hospital"></i>
+            Kerala Hospital Directory
+        </h1>
+
+        <p>
+            Find government and private hospitals across all 14 districts
+            of Kerala.
+        </p>
+
+        <p class="small mb-0">
+            FractureAI – Hospital Information and Support
+        </p>
+    </div>
+</section>
+
+
+<div class="container">
+
+    <!-- SEARCH AND FILTER SECTION -->
+    <div class="search-panel mb-5">
+
+        <form method="GET" action="{{ url_for('hospitals') }}">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Search hospitals
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Enter hospital name, place or keyword"
+                        value="{{ search_text | default('') }}"
+                    >
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">
+                        Select district
+                    </label>
+
+                    <select name="district" class="form-select">
+
+                        <option value="">All Kerala Districts</option>
+
+                        {% for district in districts %}
+                            <option
+                                value="{{ district }}"
+                                {% if selected_district == district %}selected{% endif %}
+                            >
+                                {{ district }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- HOSPITAL LIST -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+
+        <h3 class="section-title mb-0">
+            Available Hospitals
+        </h3>
+
+        <span class="badge bg-info text-dark fs-6">
+            {{ hospitals | length }} hospitals
+        </span>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        {% for hospital in hospitals %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="hospital-card">
+
+                <!-- SAME DEFAULT IMAGE FOR ALL HOSPITALS -->
+                <img
+                    src="{{ url_for('static', filename='images/hospitals/default_hospital.jpg') }}"
+                    alt="Hospital building"
+                    class="hospital-image"
+                >
+
+                <div class="p-3">
+
+                    <h5 class="hospital-name">
+                        {{ hospital.name }}
+                    </h5>
+
+                    <span class="hospital-type">
+                        {{ hospital.type | default('Hospital') }}
+                    </span>
+
+                    <hr>
+
+                    <p class="hospital-info">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        {{ hospital.address | default(hospital.district ~ ', Kerala, India') }}
+                    </p>
+
+                    <p class="hospital-info">
+                        <i class="bi bi-building"></i>
+                        District: {{ hospital.district | default('Not specified') }}
+                    </p>
+
+                    <p class="hospital-info">
+                        <i class="bi bi-telephone-fill"></i>
+                        {% if hospital.phone %}
+                            {{ hospital.phone }}
+                        {% else %}
+                            Contact details not listed
+                        {% endif %}
+                    </p>
+
+                    <p class="hospital-info">
+                        <i class="bi bi-bone"></i>
+                        <strong>Orthopaedics:</strong>
+                        {{ hospital.orthopaedics | default('Contact hospital to confirm') }}
+                    </p>
+
+                    <p class="hospital-info">
+                        <i class="bi bi-clock-fill"></i>
+                        <strong>OP Time:</strong>
+                        {{ hospital.op_time | default('Contact hospital to confirm') }}
+                    </p>
+
+                    <p class="hospital-info">
+                        <i class="bi bi-activity"></i>
+                        <strong>Emergency:</strong>
+                        {{ hospital.emergency | default('Contact hospital to confirm') }}
+                    </p>
+
+
+                    <!-- BUTTONS -->
+                    <div class="hospital-actions mt-3">
+
+                        {% if hospital.website %}
+                            <a href="{{ hospital.website }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-globe"></i>
+                                Website
+                            </a>
+                        {% endif %}
+
+                        {% if hospital.phone %}
+                            <a href="tel:{{ hospital.phone }}"
+                               class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-telephone"></i>
+                                Call
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+                    {% if hospital.source %}
+                        <p class="source-note mt-3 mb-0">
+                            Source: {{ hospital.source }}
+                        </p>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="col-12">
+            <div class="empty-message">
+                <i class="bi bi-hospital fs-1 text-secondary"></i>
+
+                <h4 class="mt-3">No hospitals found</h4>
+
+                <p class="text-muted">
+                    Try another hospital name or select a different district.
+                </p>
+
+                <a href="{{ url_for('hospitals') }}"
+                   class="btn btn-primary">
+                    Show All Hospitals
+                </a>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <p class="text-muted small mt-4">
+        Hospital information may change. Please contact the hospital
+        directly to confirm phone numbers, OP timings, emergency services
+        and specialist availability before visiting.
+    </p>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+    <h5>FractureAI</h5>
+    <p class="mb-0">
+        Hospital directory for information and assistance.
+        This directory does not provide medical diagnosis or emergency care.
+    </p>
+</footer>
+
+</body>
+</html>

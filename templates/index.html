@@ -1,0 +1,1512 @@
+
+{% extends "base.html" %}
+
+{% block title %}FractureAI | Bone Health & Fracture Awareness{% endblock %}
+
+{% block content %}
+
+<style>
+/* =====================================
+   FRACTUREAI HOME PAGE
+===================================== */
+
+.home-page {
+    --hp-navy: #102d49;
+    --hp-blue: #176b91;
+    --hp-teal: #159b96;
+    --hp-text: #263d52;
+    --hp-muted: #687d90;
+    --hp-bg: #f5f9fc;
+    color: var(--hp-text);
+    background: var(--hp-bg);
+    overflow: hidden;
+}
+
+.home-page * {
+    box-sizing: border-box;
+}
+
+.home-container {
+    width: min(1160px, 92%);
+    margin: auto;
+}
+
+.home-section {
+    padding: 75px 0;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 38px;
+}
+
+.section-kicker {
+    color: var(--hp-teal);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.section-heading h2 {
+    color: var(--hp-navy);
+    font-size: clamp(27px, 4vw, 37px);
+    margin: 0 0 13px;
+    letter-spacing: -1px;
+}
+
+.section-intro {
+    color: var(--hp-muted);
+    max-width: 720px;
+    margin: auto;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.home-page a {
+    transition: .25s ease;
+}
+
+/* =====================================
+   HERO
+===================================== */
+
+.home-hero {
+    background:
+        radial-gradient(circle at 85% 15%, #c9ecec 0, transparent 30%),
+        linear-gradient(120deg, #eaf5ff, #f2fbfa);
+    padding: 75px 0 85px;
+    position: relative;
+}
+
+.home-hero-inner {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    align-items: center;
+    gap: 55px;
+}
+
+.home-eyebrow {
+    color: var(--hp-teal);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 1.7px;
+}
+
+.home-hero h1 {
+    color: var(--hp-navy);
+    font-size: clamp(38px, 5vw, 57px);
+    line-height: 1.12;
+    letter-spacing: -2px;
+    margin: 20px 0;
+}
+
+.home-hero h1 span {
+    color: var(--hp-teal);
+}
+
+.home-hero-copy > p {
+    color: #61778b;
+    font-size: 15px;
+    line-height: 1.9;
+    max-width: 530px;
+}
+
+.home-actions {
+    display: flex;
+    gap: 13px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+}
+
+.home-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 21px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.home-btn-primary {
+    background: var(--hp-blue);
+    color: white !important;
+    box-shadow: 0 8px 22px #176b9130;
+}
+
+.home-btn-primary:hover {
+    background: #105373;
+    transform: translateY(-3px);
+}
+
+.home-btn-secondary {
+    color: var(--hp-blue) !important;
+    background: white;
+    border: 1px solid #d4e4ed;
+}
+
+.home-btn-secondary:hover {
+    background: #edf8fc;
+    transform: translateY(-3px);
+}
+
+.home-trust {
+    color: #8293a2;
+    font-size: 11px;
+    margin-top: 22px;
+}
+
+.home-hero-image {
+    position: relative;
+    background: white;
+    border: 1px solid #e1edf3;
+    padding: 17px;
+    border-radius: 25px;
+    box-shadow: 0 22px 60px #24496b18;
+}
+
+.home-hero-image img {
+    width: 100%;
+    height: 370px;
+    object-fit: contain;
+    display: block;
+    border-radius: 15px;
+    background: #f0f6fa;
+    cursor: zoom-in;
+}
+
+.hero-image-caption {
+    text-align: center;
+    color: #6e8292;
+    font-size: 11px;
+    padding-top: 13px;
+}
+
+/* =====================================
+   FEATURE CARDS
+===================================== */
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.home-card {
+    background: white;
+    border: 1px solid #e6edf3;
+    border-radius: 17px;
+    padding: 23px;
+    box-shadow: 0 5px 20px #183b5708;
+    transition: transform .25s, box-shadow .25s;
+    min-width: 0;
+}
+
+.home-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 35px #183b5714;
+}
+
+.home-card h3 {
+    color: #203b56;
+    font-size: 17px;
+    margin: 15px 0 9px;
+}
+
+.home-card p {
+    color: var(--hp-muted);
+    font-size: 13px;
+    line-height: 1.75;
+    margin: 0;
+}
+
+.home-card a {
+    color: var(--hp-blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.home-card a:hover {
+    color: var(--hp-teal);
+}
+
+.home-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: #e7f5f6;
+    color: #137f88;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+/* =====================================
+   BONE ANATOMY
+===================================== */
+
+.anatomy-section {
+    background: white;
+}
+
+.bone-card {
+    padding: 13px;
+    overflow: hidden;
+}
+
+.bone-card img {
+    display: block;
+    width: 100%;
+    height: 205px;
+    object-fit: contain;
+    background: #f1f6fa;
+    border-radius: 12px;
+    cursor: zoom-in;
+    transition: transform .3s;
+}
+
+.bone-card img:hover {
+    transform: scale(1.035);
+}
+
+.bone-card-content {
+    padding: 7px 9px 12px;
+}
+
+.bone-card h3 {
+    margin: 10px 0 7px;
+}
+
+.image-hint {
+    display: inline-block;
+    color: var(--hp-blue);
+    font-size: 10px;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+/* =====================================
+   IMAGE VIEWER / LIGHTBOX
+===================================== */
+
+.image-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background: rgba(5, 18, 31, .91);
+}
+
+.image-lightbox.active {
+    display: flex;
+}
+
+.lightbox-content {
+    position: relative;
+    width: min(950px, 95vw);
+    height: min(850px, 90vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 15px 60px #0008;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 43px;
+    height: 43px;
+    border: 0;
+    border-radius: 50%;
+    background: white;
+    color: #183247;
+    font-size: 27px;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 5px 20px #0004;
+}
+
+.lightbox-caption {
+    position: absolute;
+    bottom: -32px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    font-size: 13px;
+}
+
+/* =====================================
+   BONE INFORMATION
+===================================== */
+
+.info-band {
+    background: linear-gradient(120deg, #153c59, #176b83);
+    border-radius: 22px;
+    padding: 35px;
+    color: white;
+}
+
+.info-band h2,
+.info-band h3 {
+    color: white;
+}
+
+.info-band p {
+    color: #d6e8f0;
+    line-height: 1.8;
+}
+
+.info-band .home-card {
+    background: #ffffff12;
+    border-color: #ffffff25;
+    box-shadow: none;
+}
+
+.info-band .home-card h3 {
+    color: white;
+}
+
+.info-band .home-card p {
+    color: #d6e8f0;
+}
+
+/* =====================================
+   FRACTURE TYPES
+===================================== */
+
+.fracture-card {
+    border-top: 4px solid #239c9a;
+}
+
+.fracture-label {
+    display: inline-block;
+    background: #e9f6f5;
+    color: #137e7c;
+    border-radius: 20px;
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-top: 13px;
+}
+
+/* =====================================
+   FIRST AID
+===================================== */
+
+.first-aid-section {
+    background: #edf6f8;
+}
+
+.aid-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.aid-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 21px;
+    background: white;
+    border: 1px solid #e4edf0;
+    border-radius: 15px;
+}
+
+.aid-number {
+    flex: 0 0 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    background: var(--hp-blue);
+    color: white;
+    border-radius: 50%;
+    font-weight: 800;
+}
+
+.aid-step h3 {
+    color: #203b56;
+    margin: 2px 0 8px;
+    font-size: 15px;
+}
+
+.aid-step p {
+    color: var(--hp-muted);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.warning-panel {
+    margin-top: 25px;
+    background: #fff4ed;
+    border: 1px solid #f1d4c5;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.warning-panel h3 {
+    color: #a34527;
+    margin: 0 0 12px;
+}
+
+.warning-panel li {
+    color: #704b3e;
+    line-height: 1.9;
+    font-size: 13px;
+}
+
+.warning-panel p {
+    color: #704b3e;
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+/* =====================================
+   TIPS
+===================================== */
+
+.tip-card {
+    text-align: left;
+}
+
+.tip-card .home-icon {
+    margin-bottom: 15px;
+}
+
+/* =====================================
+   WORKFLOW
+===================================== */
+
+.workflow-section {
+    background: white;
+}
+
+.workflow-number {
+    color: #159b96;
+    font-weight: 900;
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+/* =====================================
+   FAQ
+===================================== */
+
+.home-faq details {
+    background: white;
+    border: 1px solid #e5edf3;
+    border-radius: 12px;
+    padding: 19px 21px;
+    margin-bottom: 12px;
+}
+
+.home-faq summary {
+    cursor: pointer;
+    color: #203b56;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.home-faq details p {
+    color: var(--hp-muted);
+    line-height: 1.8;
+    font-size: 13px;
+    margin: 14px 0 0;
+}
+
+/* =====================================
+   DISCLAIMER
+===================================== */
+
+.home-disclaimer {
+    background: white;
+    border-left: 4px solid #e2a34a;
+    border-radius: 9px;
+    padding: 20px;
+    color: #68788d;
+    line-height: 1.8;
+    font-size: 12px;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media(max-width: 850px) {
+    .home-hero-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .home-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-hero-image img {
+        height: 320px;
+    }
+}
+
+@media(max-width: 600px) {
+    .home-section {
+        padding: 50px 0;
+    }
+
+    .home-hero {
+        padding: 48px 0;
+    }
+
+    .home-hero h1 {
+        font-size: 39px;
+    }
+
+    .home-grid,
+    .aid-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-actions {
+        flex-direction: column;
+    }
+
+    .home-btn {
+        width: 100%;
+    }
+
+    .info-band {
+        padding: 22px;
+    }
+
+    .lightbox-content {
+        width: 95vw;
+        height: 80vh;
+    }
+
+    .lightbox-close {
+        top: -15px;
+        right: 0;
+    }
+}
+</style>
+
+
+<div class="home-page">
+
+    <!-- HERO SECTION -->
+
+    <section class="home-hero">
+        <div class="home-container home-hero-inner">
+
+            <div class="home-hero-copy">
+
+                <div class="home-eyebrow">
+                    ✦ AI-ASSISTED X-RAY SCREENING PROTOTYPE
+                </div>
+
+                <h1>
+                    Understand bone health with
+                    <span>FractureAI.</span>
+                </h1>
+
+                <p>
+                    Explore human bone anatomy, learn about different types
+                    of fractures, understand basic first aid and discover
+                    how artificial intelligence can support experimental
+                    X-ray screening.
+                </p>
+
+                <div class="home-actions">
+                    <a class="home-btn home-btn-primary"
+                       href="{{ url_for('register') }}">
+                        Create Patient Account →
+                    </a>
+
+                    <a class="home-btn home-btn-secondary"
+                       href="{{ url_for('login') }}">
+                        Login to Your Account
+                    </a>
+                </div>
+
+                <div class="home-trust">
+                    🔒 Student/research prototype · Not a medical diagnosis
+                </div>
+
+            </div>
+
+            <div class="home-hero-image">
+
+                <img
+                    src="{{ url_for('static', filename='images/bones/skeleton.png') }}"
+                    alt="Human skeleton anatomy"
+                    class="zoomable-image"
+                    data-caption="Human skeleton anatomy"
+                >
+
+                <div class="hero-image-caption">
+                    Explore the structure of the human skeleton
+                    <br>Click the image to enlarge
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- PLATFORM FEATURES -->
+
+    <section class="home-section">
+        <div class="home-container">
+
+            <div class="section-heading">
+                <div class="section-kicker">OUR PLATFORM</div>
+
+                <h2>Explore the FractureAI platform</h2>
+
+                <p class="section-intro">
+                    FractureAI combines educational bone health information
+                    with an experimental artificial intelligence screening
+                    demonstration.
+                </p>
+            </div>
+
+            <div class="home-grid">
+
+                <article class="home-card">
+                    <div class="home-icon">⌕</div>
+                    <h3>X-ray Screening</h3>
+                    <p>
+                        Upload an X-ray image to view the output of the
+                        trained image classification model.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">◉</div>
+                    <h3>Explainable AI</h3>
+                    <p>
+                        Explore a Grad-CAM heatmap showing image regions
+                        that influenced the experimental model prediction.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">♡</div>
+                    <h3>Health Information Chatbot</h3>
+                    <p>
+                        Learn about bones, fractures and basic safety
+                        information through the educational chatbot.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">🏥</div>
+                    <h3>Hospital Directory</h3>
+                    <p>
+                        Explore hospitals in Kerala using district and
+                        hospital category filters.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">📅</div>
+                    <h3>Appointment Requests</h3>
+                    <p>
+                        Access the appointment request feature through
+                        your patient account.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">📋</div>
+                    <h3>Screening History</h3>
+                    <p>
+                        Access previous screening records through
+                        your application dashboard.
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- HUMAN ANATOMY -->
+
+    <section class="home-section anatomy-section">
+        <div class="home-container">
+
+            <div class="section-heading">
+                <div class="section-kicker">HUMAN ANATOMY</div>
+
+                <h2>Explore the human skeletal system</h2>
+
+                <p class="section-intro">
+                    The adult human skeleton typically contains 206 bones.
+                    Each bone has a special structure and function.
+                    Select an image to view it in a larger size.
+                </p>
+            </div>
+
+            <div class="home-grid">
+
+                <article class="home-card bone-card">
+                    <img
+                        src="{{ url_for('static', filename='images/bones/skull.png') }}"
+                        alt="Skull anatomy"
+                        class="zoomable-image"
+                        data-caption="Skull – protects the brain"
+                    >
+                    <div class="bone-card-content">
+                        <h3>1. Skull</h3>
+                        <p>
+                            The skull protects the brain and supports
+                            the structures of the face.
+                        </p>
+                        <span class="image-hint">↗ Click to enlarge image</span>
+                    </div>
+                </article>
+
+                <article class="home-card bone-card">
+                    <img
+                        src="{{ url_for('static', filename='images/bones/spine.png') }}"
+                        alt="Spinal column anatomy"
+                        class="zoomable-image"
+                        data-caption="Spine – supports the body and protects the spinal cord"
+                    >
+                    <div class="bone-card-content">
+                        <h3>2. Spine</h3>
+                        <p>
+                            The vertebral column supports the body,
+                            allows flexibility and protects the spinal cord.
+                        </p>
+                        <span class="image-hint">↗ Click to enlarge image</span>
+                    </div>
+                </article>
+
+                <article class="home-card bone-card">
+                    <img
+                        src="{{ url_for('static', filename='images/bones/ribcage.png') }}"
+                        alt="Rib cage anatomy"
+                        class="zoomable-image"
+                        data-caption="Rib cage – protects the heart and lungs"
+                    >
+                    <div class="bone-card-content">
+                        <h3>3. Rib Cage</h3>
+                        <p>
+                            The rib cage protects important organs
+                            such as the heart and lungs.
+                        </p>
+                        <span class="image-hint">↗ Click to enlarge image</span>
+                    </div>
+                </article>
+
+                <article class="home-card bone-card">
+                    <img
+                        src="{{ url_for('static', filename='images/bones/femur.png') }}"
+                        alt="Femur anatomy"
+                        class="zoomable-image"
+                        data-caption="Femur – the longest bone in the human body"
+                    >
+                    <div class="bone-card-content">
+                        <h3>4. Femur</h3>
+                        <p>
+                            The femur is the thigh bone and is the
+                            longest and strongest bone in the body.
+                        </p>
+                        <span class="image-hint">↗ Click to enlarge image</span>
+                    </div>
+                </article>
+
+                <article class="home-card bone-card">
+                    <img
+                        src="{{ url_for('static', filename='images/bones/hand.png') }}"
+                        alt="Hand bone anatomy"
+                        class="zoomable-image"
+                        data-caption="Hand bones – support gripping and fine movement"
+                    >
+                    <div class="bone-card-content">
+                        <h3>5. Hand Bones</h3>
+                        <p>
+                            Hand bones help with gripping, holding,
+                            writing and other precise movements.
+                        </p>
+                        <span class="image-hint">↗ Click to enlarge image</span>
+                    </div>
+                </article>
+
+                <article class="home-card bone-card">
+                    <img
+                        src="{{ url_for('static', filename='images/bones/foot.png') }}"
+                        alt="Foot bone anatomy"
+                        class="zoomable-image"
+                        data-caption="Foot bones – support body weight and balance"
+                    >
+                    <div class="bone-card-content">
+                        <h3>6. Foot Bones</h3>
+                        <p>
+                            Foot bones support body weight and help
+                            maintain balance during standing and walking.
+                        </p>
+                        <span class="image-hint">↗ Click to enlarge image</span>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- BONE FUNCTIONS -->
+
+    <section class="home-section">
+        <div class="home-container">
+
+            <div class="section-heading">
+                <div class="section-kicker">WHY BONES MATTER</div>
+                <h2>Six important functions of bones</h2>
+                <p class="section-intro">
+                    Bones are living tissues that perform several
+                    important functions in the human body.
+                </p>
+            </div>
+
+            <div class="home-grid">
+
+                <article class="home-card">
+                    <div class="home-icon">🧍</div>
+                    <h3>Body Support</h3>
+                    <p>
+                        Bones provide the framework of the body and
+                        help maintain posture and shape.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">🛡️</div>
+                    <h3>Organ Protection</h3>
+                    <p>
+                        The skull protects the brain, while the rib cage
+                        protects the heart and lungs.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">🚶</div>
+                    <h3>Movement</h3>
+                    <p>
+                        Bones work with muscles, joints and tendons
+                        to make movement possible.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">🩸</div>
+                    <h3>Blood Cell Production</h3>
+                    <p>
+                        Bone marrow inside certain bones produces
+                        red blood cells, white blood cells and platelets.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">⚖️</div>
+                    <h3>Mineral Storage</h3>
+                    <p>
+                        Bones store minerals such as calcium and
+                        phosphorus for the body.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">💪</div>
+                    <h3>Muscle Attachment</h3>
+                    <p>
+                        Bones provide attachment points for muscles
+                        and help transfer the forces needed for movement.
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FRACTURE TYPES -->
+
+    <section class="home-section anatomy-section">
+        <div class="home-container">
+
+            <div class="section-heading">
+                <div class="section-kicker">FRACTURE EDUCATION</div>
+                <h2>Understanding different types of fractures</h2>
+
+                <p class="section-intro">
+                    A fracture is a break or crack in a bone.
+                    Fractures are classified in different ways based
+                    on the injury and the pattern of the break.
+                </p>
+            </div>
+
+            <div class="home-grid">
+
+                <article class="home-card fracture-card">
+                    <h3>Closed Fracture</h3>
+                    <p>
+                        The bone is broken, but there is no open wound
+                        communicating with the fracture.
+                    </p>
+                    <span class="fracture-label">Skin remains closed</span>
+                </article>
+
+                <article class="home-card fracture-card">
+                    <h3>Open Fracture</h3>
+                    <p>
+                        The fracture is associated with an open wound.
+                        This requires urgent medical assessment.
+                    </p>
+                    <span class="fracture-label">Urgent medical attention</span>
+                </article>
+
+                <article class="home-card fracture-card">
+                    <h3>Transverse Fracture</h3>
+                    <p>
+                        The fracture line runs across the bone,
+                        approximately at a right angle to its length.
+                    </p>
+                    <span class="fracture-label">Horizontal pattern</span>
+                </article>
+
+                <article class="home-card fracture-card">
+                    <h3>Oblique Fracture</h3>
+                    <p>
+                        The fracture line travels diagonally
+                        across the bone.
+                    </p>
+                    <span class="fracture-label">Diagonal pattern</span>
+                </article>
+
+                <article class="home-card fracture-card">
+                    <h3>Spiral Fracture</h3>
+                    <p>
+                        The fracture line curves around the bone
+                        and is often associated with a twisting force.
+                    </p>
+                    <span class="fracture-label">Twisting pattern</span>
+                </article>
+
+                <article class="home-card fracture-card">
+                    <h3>Comminuted Fracture</h3>
+                    <p>
+                        The bone breaks into three or more pieces.
+                    </p>
+                    <span class="fracture-label">Multiple fragments</span>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FIRST AID -->
+
+    <section class="home-section first-aid-section">
+        <div class="home-container">
+
+            <div class="section-heading">
+                <div class="section-kicker">BASIC EMERGENCY AWARENESS</div>
+                <h2>First aid for a suspected bone fracture</h2>
+
+                <p class="section-intro">
+                    Knowing basic first aid can help protect an injured
+                    person while professional medical assistance is arranged.
+                </p>
+            </div>
+
+            <div class="aid-grid">
+
+                <div class="aid-step">
+                    <div class="aid-number">1</div>
+                    <div>
+                        <h3>Keep the person calm and still</h3>
+                        <p>
+                            Help the injured person stay calm.
+                            Avoid unnecessary movement of the injured area.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="aid-step">
+                    <div class="aid-number">2</div>
+                    <div>
+                        <h3>Support the injured area</h3>
+                        <p>
+                            Gently support the injured limb in the position
+                            in which it was found. Do not try to straighten it.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="aid-step">
+                    <div class="aid-number">3</div>
+                    <div>
+                        <h3>Protect an open wound</h3>
+                        <p>
+                            Cover the wound with a sterile dressing or clean
+                            cloth. Do not press on a protruding bone.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="aid-step">
+                    <div class="aid-number">4</div>
+                    <div>
+                        <h3>Arrange medical help</h3>
+                        <p>
+                            Seek professional medical assessment promptly.
+                            Call emergency services for serious injuries.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="aid-step">
+                    <div class="aid-number">5</div>
+                    <div>
+                        <h3>Use a cold pack carefully</h3>
+                        <p>
+                            If appropriate, use a cold pack wrapped in cloth
+                            near the injured area. Never apply ice directly
+                            to the skin or to an open wound.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="aid-step">
+                    <div class="aid-number">6</div>
+                    <div>
+                        <h3>Watch for warning signs</h3>
+                        <p>
+                            Look for worsening pain, numbness, tingling,
+                            unusual colour or coldness in the injured limb.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="warning-panel">
+
+                <h3>⚠️ When should you get emergency help?</h3>
+
+                <ul>
+                    <li>There is heavy bleeding or an open fracture.</li>
+                    <li>The injured limb becomes pale, blue, cold or numb.</li>
+                    <li>There is severe pain or an obvious deformity.</li>
+                    <li>You suspect a head, neck, back or spinal injury.</li>
+                    <li>The person is unconscious or has difficulty breathing.</li>
+                </ul>
+
+                <p>
+                    <strong>In India, call 112 for emergency assistance.</strong>
+                </p>
+
+            </div>
+
+            <div class="home-disclaimer" style="margin-top:20px;">
+                <strong>Important first-aid precautions:</strong>
+                Do not massage the injured area, attempt to set the bone,
+                straighten a deformed limb, or ask the injured person to
+                test whether they can walk on it. Avoid unnecessary movement
+                and seek professional medical help.
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- BONE HEALTH TIPS -->
+
+    <section class="home-section">
+        <div class="home-container">
+
+            <div class="section-heading">
+                <div class="section-kicker">HEALTHY LIFESTYLE</div>
+                <h2>How to maintain healthy bones</h2>
+
+                <p class="section-intro">
+                    Healthy lifestyle habits can support bone strength
+                    and overall physical well-being.
+                </p>
+            </div>
+
+            <div class="home-grid">
+
+                <article class="home-card tip-card">
+                    <div class="home-icon">🥛</div>
+                    <h3>Calcium-rich foods</h3>
+                    <p>
+                        Include appropriate calcium sources such as milk,
+                        curd, leafy vegetables and fortified foods.
+                    </p>
+                </article>
+
+                <article class="home-card tip-card">
+                    <div class="home-icon">☀️</div>
+                    <h3>Vitamin D</h3>
+                    <p>
+                        Vitamin D helps the body absorb calcium.
+                        Ask a healthcare professional about your needs.
+                    </p>
+                </article>
+
+                <article class="home-card tip-card">
+                    <div class="home-icon">🚴</div>
+                    <h3>Regular Exercise</h3>
+                    <p>
+                        Suitable weight-bearing and muscle-strengthening
+                        exercises support bone health.
+                    </p>
+                </article>
+
+                <article class="home-card tip-card">
+                    <div class="home-icon">🥗</div>
+                    <h3>Balanced Nutrition</h3>
+                    <p>
+                        Eat a varied diet containing adequate protein,
+                        fruits, vegetables and other nutrients.
+                    </p>
+                </article>
+
+                <article class="home-card tip-card">
+                    <div class="home-icon">🚭</div>
+                    <h3>Avoid Smoking</h3>
+                    <p>
+                        Smoking can negatively affect bone health
+                        and the body's ability to heal.
+                    </p>
+                </article>
+
+                <article class="home-card tip-card">
+                    <div class="home-icon">🩺</div>
+                    <h3>Health Check-ups</h3>
+                    <p>
+                        Speak with a healthcare professional if you
+                        have concerns or risk factors affecting bone health.
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- HOW FRACTUREAI WORKS -->
+
+    <section class="home-section workflow-section">
+        <div class="home-container">
+
+            <div class="info-band">
+
+                <div class="section-kicker" style="color:#a9e7e5;">
+                    OUR TECHNOLOGY
+                </div>
+
+                <h2>How does FractureAI work?</h2>
+
+                <p>
+                    FractureAI demonstrates an experimental workflow
+                    combining deep learning, computer vision and
+                    educational information retrieval.
+                </p>
+
+                <div class="home-grid">
+
+                    <article class="home-card">
+                        <div class="workflow-number">01</div>
+                        <h3>Upload X-ray</h3>
+                        <p>
+                            Upload an X-ray image through the
+                            screening interface.
+                        </p>
+                    </article>
+
+                    <article class="home-card">
+                        <div class="workflow-number">02</div>
+                        <h3>AI Model Prediction</h3>
+                        <p>
+                            The trained image classification model
+                            generates an experimental prediction
+                            and confidence score.
+                        </p>
+                    </article>
+
+                    <article class="home-card">
+                        <div class="workflow-number">03</div>
+                        <h3>Grad-CAM Explanation</h3>
+                        <p>
+                            A visual heatmap displays regions
+                            influencing the model output.
+                        </p>
+                    </article>
+
+                </div>
+
+                <p style="margin-top:28px;">
+                    <a href="{{ url_for('login') }}">
+                        Explore the screening workspace →
+                    </a>
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- QUICK LINKS -->
+
+    <section class="home-section">
+        <div class="home-container">
+
+            <div class="section-heading">
+                <div class="section-kicker">EXPLORE MORE</div>
+                <h2>Continue with FractureAI</h2>
+                <p class="section-intro">
+                    Explore the different sections of the application.
+                </p>
+            </div>
+
+            <div class="home-grid">
+
+                <article class="home-card">
+                    <div class="home-icon">🏥</div>
+                    <h3>Kerala Hospital Directory</h3>
+                    <p>
+                        Explore hospital information by district,
+                        ownership and category.
+                    </p>
+                    <p style="margin-top:15px;">
+                        <a href="{{ url_for('hospitals') }}">
+                            Explore hospitals →
+                        </a>
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">💬</div>
+                    <h3>AI Health Information Chatbot</h3>
+                    <p>
+                        Ask educational questions about bone anatomy,
+                        fracture types and basic fracture awareness.
+                    </p>
+                    <p style="margin-top:15px;">
+                        <a href="{{ url_for('login') }}">
+                            Open chatbot →
+                        </a>
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-icon">📅</div>
+                    <h3>Appointment Requests</h3>
+                    <p>
+                        Access the appointment request feature
+                        through your patient account.
+                    </p>
+                    <p style="margin-top:15px;">
+                        <a href="{{ url_for('login') }}">
+                            Continue to login →
+                        </a>
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ -->
+
+    <section class="home-section anatomy-section">
+        <div class="home-container home-faq">
+
+            <div class="section-heading">
+                <div class="section-kicker">COMMON QUESTIONS</div>
+                <h2>Frequently asked questions</h2>
+            </div>
+
+            <details>
+                <summary>How many bones are in the human body?</summary>
+                <p>
+                    An adult human skeleton typically has 206 bones.
+                    The number can vary due to anatomical differences.
+                </p>
+            </details>
+
+            <details>
+                <summary>What are the common symptoms of a fracture?</summary>
+                <p>
+                    Symptoms may include pain, swelling, bruising,
+                    deformity and difficulty moving the affected area.
+                    A medical professional must assess a suspected fracture.
+                </p>
+            </details>
+
+            <details>
+                <summary>Can FractureAI confirm whether a bone is broken?</summary>
+                <p>
+                    No. FractureAI is an experimental student/research
+                    prototype, not a clinically validated diagnostic tool.
+                    A qualified clinician or radiologist must interpret
+                    the X-ray.
+                </p>
+            </details>
+
+            <details>
+                <summary>What is a Grad-CAM heatmap?</summary>
+                <p>
+                    Grad-CAM is an explainability technique that highlights
+                    image regions influencing a model prediction.
+                    It does not identify the exact fracture location
+                    or prove that a fracture is present.
+                </p>
+            </details>
+
+            <details>
+                <summary>What should I do if I suspect a fracture?</summary>
+                <p>
+                    Keep the injured area still, avoid trying to straighten
+                    it and seek professional medical assessment.
+                    Get emergency help for severe or concerning injuries.
+                </p>
+            </details>
+
+            <details>
+                <summary>Can I use this website instead of visiting a doctor?</summary>
+                <p>
+                    No. This website provides educational information
+                    and an experimental demonstration only.
+                    It must not delay or replace professional medical care.
+                </p>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- MEDICAL DISCLAIMER -->
+
+    <section class="home-container" style="padding-bottom:55px;">
+
+        <div class="home-disclaimer">
+            <strong>Medical safety notice:</strong>
+            FractureAI is an experimental student/research prototype.
+            It is not clinically validated and does not provide a medical
+            diagnosis, treatment recommendation or emergency service.
+            AI predictions and heatmaps may be incorrect. Do not use this
+            website to delay or replace professional medical care.
+            Never upload identifiable patient records to this demo application.
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- LARGE IMAGE VIEWER -->
+
+<div class="image-lightbox" id="imageLightbox"
+     role="dialog" aria-modal="true"
+     aria-label="Enlarged anatomy image">
+
+    <div class="lightbox-content">
+
+        <button type="button"
+                class="lightbox-close"
+                id="lightboxClose"
+                aria-label="Close enlarged image">
+            ×
+        </button>
+
+        <img id="lightboxImage" src="" alt="Enlarged anatomy image">
+
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+
+    </div>
+</div>
+
+
+<!-- IMAGE POPUP SCRIPT -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const lightbox = document.getElementById("imageLightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+    const closeButton = document.getElementById("lightboxClose");
+
+    const zoomImages = document.querySelectorAll(".home-page .zoomable-image");
+
+    function closeLightbox() {
+        lightbox.classList.remove("active");
+        lightboxImage.src = "";
+        document.body.style.overflow = "";
+    }
+
+    zoomImages.forEach(function (img) {
+
+        img.addEventListener("click", function () {
+
+            if (!img.complete || img.naturalWidth === 0) {
+                alert("This image could not be loaded. Please check the image file in static/images/bones/.");
+                return;
+            }
+
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
+
+            lightboxCaption.textContent =
+                img.dataset.caption || img.alt || "Anatomy image";
+
+            lightbox.classList.add("active");
+            document.body.style.overflow = "hidden";
+        });
+
+    });
+
+    closeButton.addEventListener("click", closeLightbox);
+
+    lightbox.addEventListener("click", function (event) {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && lightbox.classList.contains("active")) {
+            closeLightbox();
+        }
+    });
+
+});
+</script>
+
+{% endblock %}

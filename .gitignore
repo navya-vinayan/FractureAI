@@ -1,0 +1,11 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+chroma_db/
+.ipynb_checkpoints/
+.DS_Store*.db
+*.db
+static/uploads/*
+static/uploads/*

@@ -1,0 +1,28 @@
+
+X-RAY INFORMATION
+
+An X-ray is an imaging test that uses a small amount of radiation to create pictures of bones and other structures inside the body.
+
+HOW X-RAYS HELP IDENTIFY FRACTURES
+
+- X-rays can show breaks or cracks in bones.
+- They can help identify bone alignment.
+- They can help doctors assess the location of a suspected fracture.
+- Different views may be needed to assess an injury.
+
+COMMON X-RAY VIEWS
+
+1. AP view: Anteroposterior view, where the X-ray beam passes from front to back.
+2. Lateral view: A side view of the body part.
+3. Oblique view: An angled view that may show structures not clearly visible in other views.
+
+LIMITATIONS OF X-RAYS
+
+- Some small fractures may not be visible initially.
+- Overlapping bones can make interpretation difficult.
+- Image quality and positioning can affect visibility.
+- Additional imaging may be needed when clinically indicated.
+
+IMPORTANT
+
+An AI fracture prediction system is only a screening aid. It cannot confirm or rule out a fracture. A qualified radiologist or doctor must interpret the X-ray and make the diagnosis.

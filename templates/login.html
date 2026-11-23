@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Log in | FractureAI{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="auth-card"><div class="auth-symbol">✚</div><div class="eyebrow">WELCOME BACK</div><h1>Log in to FractureAI</h1><p class="muted">Access your screening workspace and history.</p>
+<form method="post" class="form">
+<label>Email address<input type="email" name="email" required placeholder="you@example.com"></label>
+<label>Password<input type="password" name="password" required placeholder="Your password"></label>
+<button class="btn primary full" type="submit">Log in</button>
+</form><p class="auth-switch">New here? <a href="{{ url_for('register') }}">Create an account</a></p></div></div>
+{% endblock %}
